@@ -1,28 +1,21 @@
 <script>
-    import ImageComponent from "../componenet/imageComponent.svelte"
-	import { search, setResumable } from 'svelte-stack-router';       
-    export const params = {iamge:""}     
-    setResumable(false)
-    
+    import Content from "../componenet/contentComponent.svelte"
+	import { search } from 'svelte-stack-router';    
+    let url = $search.slice(1)
+    let datas=[{src:url,text:"asdfasdf"},{src:url,text:"1412341234"}]
 </script>
 
-<div class="container mt-5">    
-    <div class="col-10 offset-1">
-        <div class="mb-1">
-            <img src="{$search.slice(1)}" alt="">
+<div class="container"> 
+    {#each datas as data, i (i)}
+        <div class="col-10 offset-1">
+            <Content {data}/>
         </div>
-        <p>
-            rolem
-        </p>
-    </div>
+    {/each}
 </div>
 
+
 <style>
-    .container{
-        height : 300vh
-    }
-    
-    img {
-        width : 100%
+    .container {
+        height: 300vh;
     }
 </style>

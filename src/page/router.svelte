@@ -1,14 +1,16 @@
 <script>
-	import { StackRouter, slide } from 'svelte-stack-router';
+	import { StackRouter, dive, noAnimation } from 'svelte-stack-router';
 
     import Footer from '../common/footer.svelte';
 
     import ImagePage from './imagesPage.svelte';
     import ContentPage from './contentPage.svelte';
+    import UploadPage from './uploadPage.svelte';
 
     const routes = {
         "/": ImagePage,
-        "/content": ContentPage
+        "/content": ContentPage,
+        "/upload": UploadPage
     };
   
 </script>
@@ -16,7 +18,7 @@
 
 <div>
     <div>
-        <StackRouter transitionFn={slide(10)} {routes}  />
+        <StackRouter transitionFn={dive(200)} {routes}  />
     </div>
     <footer/>
     <Footer />
