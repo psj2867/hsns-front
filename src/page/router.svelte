@@ -6,11 +6,13 @@
     import ImagePage from './imagesPage.svelte';
     import ContentPage from './contentPage.svelte';
     import UploadPage from './uploadPage.svelte';
+    import MainPage from './MainPage.svelte';
 
     const routes = {
         "/": ImagePage,
         "/content": ContentPage,
-        "/upload": UploadPage
+        "/upload": UploadPage,
+        "/main": MainPage
     };
   
 </script>

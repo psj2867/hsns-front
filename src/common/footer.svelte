@@ -8,7 +8,7 @@
     <div class="continaer text-center">
         <div class="row justify-content-center p-3">
             <div class="col-3 m-1 border border-2 border-info-subtle rounded-3" >
-                <a href="e" use:link={"/"}> <div>home</div> </a>      
+                <a href="e" use:link={"/main"}> <div>main</div> </a>      
             </div>
             <div class="col-3 m-1 border border-2 border-info-subtle rounded-3" >
                 <a href="e" use:link={"/"}> <div>home</div> </a>                

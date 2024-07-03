@@ -9,7 +9,7 @@
         <img src="{data.src}" alt="">
     </div>
     <p>
-        rolem
+        {data.text}
     </p>
 </div>
 
