@@ -1,5 +1,5 @@
 import { push } from "svelte-stack-router"
-import { getApiServer, userSet, userGet, userTokenGet, isLogin } from "./global.js"
+import { getApiServer, userSet, userGet, userTokenGet, isLogin, getImageServer } from "./global.js"
 import { get } from "svelte/store"
 
 export function ifNotLogin() {
@@ -57,6 +57,32 @@ export async function uploadRequest(content, imageN) {
         }
     })
     return await res.json()
+}
+export async function uploadImages(files, imageUuids, token){    
+    const formData = new FormData();
+    formData.append("token", token)
+    for (let i = 0; i < imageUuids.length; i++) {
+        formData.append(imageUuids[i], files[i]);
+    }
+    let res = await fetch( getImageServer(), {
+        method: 'POST',
+        body: formData,      
+    });
+    return res
+}
+export async function successUploadImages(token){    
+    let res = await fetch(getApiServer('/contents/upload/success'), {
+        method: "POST", body: JSON.stringify(
+            {
+                "token": token,
+            }
+        ),
+        headers: {
+            "Authorization": userTokenGet(),
+            "Content-Type": "application/json",
+        }
+    })
+    return res
 }
 
 export async function signup(user){

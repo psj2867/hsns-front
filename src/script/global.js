@@ -1,7 +1,7 @@
 import { writable, derived, readable, readonly } from 'svelte/store';
 
 export const getApiServer = (path="")=>'http://localhost:8000' + path
-export const getImageServer = (path="")=>'http://example.com' + path
+export const getImageServer = (path="")=>'http://localhost:8081' + path
 
 let _userToken = ""
 export const userTokenGet = ()=>_userToken

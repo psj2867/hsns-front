@@ -1,8 +1,9 @@
 <script>
     import Dropzone from "svelte-file-dropzone";
     import ImageComponent from "../componenet/upload/imageComponent.svelte"
-    import {ifNotLogin, login, uploadRequest} from "../script/request.js"
-  
+    import {ifNotLogin, login, successUploadImages, uploadImages, uploadRequest} from "../script/request.js"
+    import { onResume, pop, push, replace, setResumable } from "svelte-stack-router";
+    let content = ""
     let files = {
       accepted: [],
       rejected: []
@@ -24,25 +25,28 @@
     }
     async function upload(e){
         if(ifNotLogin()) return
-        let imageUuids = uploadRequest("",3)
+        let imageUuids = await uploadRequest(content,files.accepted.length)
         console.info(imageUuids)
+        let uploadFiles = files.accepted.map((f)=>f.file)
+        let uploadRes = await uploadImages(uploadFiles, imageUuids["uuids"], imageUuids["token"])
+        let returnToken = await uploadRes.text()
+        await successUploadImages(returnToken)        
+        reset()        
+        await replace("/main")
     }
-    async function uploadImages(imageUuids){
-        uploadFiles = files.accepted.map((f)=>f.file)
-        const formData = new FormData();
-        for (let i = 0; i < imageUuids.length; i++) {
-            formData.append(imageUuids[i], uploadFiles[i]);
-        }
-        res = await fetch('https://example.com/api/upload', {
-            method: 'POST',
-            body: data,      
-        });
-        return await res.text()
+    function reset(){
+        content = ""
+        files  =    {
+            accepted: [],
+            rejected: []
+            };
     }
+
   </script>
 <div class="container-fluid main p-3">
     <div class="drop">
         <Dropzone on:drop={handleFilesSelect}>    
+            <span class="text">drop or click</span>
             <div class="images container-fluid d-flex overflow-x-scroll">
                 {#each files.accepted as item, i (i)}
                 <div class="col-3">
@@ -50,12 +54,11 @@
                 </div>
                 {/each}
             </div>    
-            <span class="text">drop or click</span>
         </Dropzone>
     </div>
     <div class="bottom container-fluid">
         <div class="row textarea">
-            <textarea class="form-control" autocomplete="off"></textarea>
+            <textarea bind:value={content} class="form-control" autocomplete="off"></textarea>
         </div>
         <div class="row upload-btn">
             <button class="btn btn-light" on:click={upload}>upload</button>
@@ -69,6 +72,7 @@
         position: absolute;
         top: 40%;
         left: 40%;
+        z-index : 1;
     }
     textarea{
         resize: none;
@@ -78,6 +82,7 @@
     }
     .images{        
         height: 100%;
+        z-index : 10;
     }
     .drop{
         position: relative;
