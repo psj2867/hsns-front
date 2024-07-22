@@ -7,27 +7,36 @@
     import ContentPage from './contentPage.svelte';
     import UploadPage from './uploadPage.svelte';
     import MainPage from './MainPage.svelte';
+    import SignupPage from './signupPage.svelte';
+    import UserInfoPage from './userInfoPage.svelte';
+    import LoginPage from './loginPage.svelte';
 
     const routes = {
         "/": ImagePage,
         "/content": ContentPage,
         "/upload": UploadPage,
-        "/main": MainPage
+        "/main": MainPage,
+        "/user": UserInfoPage,
+        "/login" : LoginPage,
+        "/signup": SignupPage,
     };
   
 </script>
   
 
 <div>
-    <div>
-        <StackRouter transitionFn={dive(200)} {routes}  />
+    <div class="main">
+        <StackRouter transitionFn={dive(200)} {routes}  restoreScroll={false} />
     </div>
-    <footer/>
+    
     <Footer />
 </div>
 
 <style>
-    footer {
-        height : 70px;
+    .main{
+        height: calc(100vh - 70px);
+    }    
+    :global(.stack-router-mount-point, .stack-router-mount-point>div){
+        height: 100%;
     }
 </style>

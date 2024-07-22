@@ -7,6 +7,9 @@
 <footer class="position-fixed bottom-0 border border-5 border-primary-subtle text-bg-light">
     <div class="continaer text-center">
         <div class="row justify-content-center p-3">
+            <div class="col-1 m-1" >
+                            
+            </div>
             <div class="col-3 m-1 border border-2 border-info-subtle rounded-3" >
                 <a href="e" use:link={"/main"}> <div>main</div> </a>      
             </div>
@@ -15,6 +18,9 @@
             </div>
             <div class="col-3 m-1 border border-2 border-info-subtle rounded-3" >
                 <a href="e" use:link={"/upload"}> <div>upload</div> </a>                
+            </div>
+            <div class="col-1 m-1 border border-2 border-info-subtle rounded-5" >
+                <a href="e" use:link={"/user"}> <div>user</div> </a>                
             </div>
         </div>
     </div>

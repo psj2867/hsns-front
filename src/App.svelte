@@ -8,7 +8,7 @@
 <Header/>
 
 <Router/>
-
+<!-- 
 <style>
 	:global(body) {
 		padding: 0;
@@ -18,4 +18,4 @@
 	:global(body::-webkit-scrollbar) {
         display: none;  /* Safari and Chrome */
 	}
-</style>
+</style> -->

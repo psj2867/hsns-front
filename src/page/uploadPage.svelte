@@ -1,5 +1,7 @@
 <script>
     import Dropzone from "svelte-file-dropzone";
+    import ImageComponent from "../componenet/upload/imageComponent.svelte"
+    import {ifNotLogin, login, uploadRequest} from "../script/request.js"
   
     let files = {
       accepted: [],
@@ -16,43 +18,82 @@
       files.rejected = [...files.rejected, ...fileRejections];
     }
     function deleteFile(e){
-        files.accepted = files.accepted.filter((v)=>v!=e)
+        var item = e.detail
+        console.info(item)
+        files.accepted = files.accepted.filter((v)=>v!=item)
+    }
+    async function upload(e){
+        if(ifNotLogin()) return
+        let imageUuids = uploadRequest("",3)
+        console.info(imageUuids)
+    }
+    async function uploadImages(imageUuids){
+        uploadFiles = files.accepted.map((f)=>f.file)
+        const formData = new FormData();
+        for (let i = 0; i < imageUuids.length; i++) {
+            formData.append(imageUuids[i], uploadFiles[i]);
+        }
+        res = await fetch('https://example.com/api/upload', {
+            method: 'POST',
+            body: data,      
+        });
+        return await res.text()
     }
   </script>
-  
-
-<Dropzone on:drop={handleFilesSelect}>
-    <div class="drop row align-items-center">
-        drop or click
+<div class="container-fluid main p-3">
+    <div class="drop">
+        <Dropzone on:drop={handleFilesSelect}>    
+            <div class="images container-fluid d-flex overflow-x-scroll">
+                {#each files.accepted as item, i (i)}
+                <div class="col-3">
+                    <ImageComponent url="{item.url}" item="{item}" on:deleteItem={deleteFile}></ImageComponent>
+                </div>
+                {/each}
+            </div>    
+            <span class="text">drop or click</span>
+        </Dropzone>
     </div>
-</Dropzone>
-
-
-<div class="image-container container-fluid">
-    <div class="images row overflow-y-auto">
-        {#each files.accepted as item, i (i)}
-        <div class="col-3">
-            <button on:click={deleteFile(item)}>x</button>
-            <img src="{item.url}" alt="">
+    <div class="bottom container-fluid">
+        <div class="row textarea">
+            <textarea class="form-control" autocomplete="off"></textarea>
         </div>
-        {/each}
+        <div class="row upload-btn">
+            <button class="btn btn-light" on:click={upload}>upload</button>
+        </div>    
     </div>
-</div>
-<div>
-    <button>upload</button>
+
 </div>
 
-<style>
-    .drop {
-        height: 40vh;
+<style>    
+    .text{
+        position: absolute;
+        top: 40%;
+        left: 40%;
     }
-    .image-container{
-        height: 33vw;
+    textarea{
+        resize: none;
+    }
+    .main{
+        height: 100%;
     }
     .images{        
         height: 100%;
     }
-    img {
-        width: 100%;
+    .drop{
+        position: relative;
+        height: 30%;
+    }
+    .drop > :global(.dropzone) {  
+        width: 100%;  
+        height: 100%;        
+    }
+    .bottom{
+        height: 70%;
+    }
+    .textarea{
+        height: 80%;
+    }
+    .upload-btn{
+        height: 20%;
     }
 </style>
